@@ -70,7 +70,7 @@ async function parseResponse(
 
 async function performRefresh(): Promise<void> {
   const response = await fetch(
-    `${adminEnv.apiUrl}/auth/refresh`,
+    `${adminEnv.apiUrl}/platform/auth/refresh`,
     {
       method: "POST",
       credentials: "include",

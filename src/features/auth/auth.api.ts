@@ -36,7 +36,7 @@ export async function loginPlatformAdmin(
   input: LoginInput,
 ): Promise<PlatformSession> {
   await apiRequest<LoginResponse>(
-    "/auth/login",
+    "/platform/auth/login",
     {
       method: "POST",
 
@@ -49,7 +49,6 @@ export async function loginPlatformAdmin(
     },
   );
 
-  // Successful authentication alone does not grant platform access.
   return getPlatformSession();
 }
 
@@ -58,7 +57,7 @@ export async function loginPlatformAdmin(
 export async function logoutPlatformAdmin(): Promise<void> {
   try {
     await apiRequestVoid(
-      "/auth/logout",
+      "/platform/auth/logout",
       {
         method: "POST",
         body: {},
@@ -66,8 +65,8 @@ export async function logoutPlatformAdmin(): Promise<void> {
       },
     );
   } catch (error) {
-    // The server clears authentication cookies when no refresh
-    // credential exists. Treat that response as already signed out.
+    // The server clears admin cookies even when the logout
+    // credential is missing or invalid.
     if (
       error instanceof ApiError &&
       error.status === 401
